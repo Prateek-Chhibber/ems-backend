@@ -2,7 +2,7 @@ package com.ernest.emsbackend.service.impl;
 
 import com.ernest.emsbackend.dto.EmployeeDto;
 import com.ernest.emsbackend.entity.Employee;
-import com.ernest.emsbackend.exception.ResourceNotFoundExeption;
+import com.ernest.emsbackend.exception.ResourceNotFoundException;
 import com.ernest.emsbackend.mapper.EmployeeMapper;
 import com.ernest.emsbackend.repository.EmployeeRepository;
 import com.ernest.emsbackend.service.EmployeeService;
@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(()->
-                        new ResourceNotFoundExeption("Employee does not exist with given id : " + employeeId));
+                        new ResourceNotFoundException("Employee does not exist with given id : " + employeeId));
         return EmployeeMapper.mapToEmployeeDto(employee);
     }
 
@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployee) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(
-                () -> new ResourceNotFoundExeption("Employee is not exists with given id: " + employeeId)
+                () -> new ResourceNotFoundException("Employee is not exists with given id: " + employeeId)
         );
 
         employee.setFirstName(updatedEmployee.getFirstName());
@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(Long employeeId) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(
-                () -> new ResourceNotFoundExeption("Employee is not exists with given id: " + employeeId)
+                () -> new ResourceNotFoundException("Employee is not exists with given id: " + employeeId)
         );
 
         employeeRepository.deleteById(employeeId);
